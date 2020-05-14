@@ -1,7 +1,7 @@
 COVID19 Disease Map Identifier Analysis
 ================
 Augustin Luna
-13 May, 2020
+14 May, 2020
 
   - [PURPOSE](#purpose)
   - [LOAD LIBRARIES](#load-libraries)
@@ -33,7 +33,8 @@ Augustin Luna
   - [DATASET IDENTIFIER COMPARISON](#dataset-identifier-comparison)
       - [Set Comparisons](#set-comparisons)
       - [Read Data](#read-data)
-      - [Extract Namespace](#extract-namespace)
+      - [Count identifiers.org IDs Used And Extract
+        Namespace](#count-identifiers.org-ids-used-and-extract-namespace)
       - [Merge Data](#merge-data)
       - [Plot Data](#plot-data)
           - [Identifier Counts By Namespace (Disease Maps, Indra,
@@ -42,6 +43,7 @@ Augustin Luna
           - [Venn Diagram](#venn-diagram)
   - [FREQUENCY COMPARISON: COUNTS OF INTERACTIONS WITH GIVEN IDS (TOP
     10)](#frequency-comparison-counts-of-interactions-with-given-ids-top-10)
+      - [TODO](#todo)
       - [Merge Data From The Two
         Sources](#merge-data-from-the-two-sources)
       - [Uniprot](#uniprot)
@@ -389,7 +391,7 @@ dm_cleaned <- read_tsv("dm_cleaned.txt", col_types = cols(
 ))
 ```
 
-## Extract Namespace
+## Count identifiers.org IDs Used And Extract Namespace
 
 ``` r
 idx <- grepl("https://identifiers.org/", indra_ids)
@@ -398,20 +400,33 @@ indra_ids_sm <- str_remove(indra_ids, "https://identifiers.org/")
 indra_ids_sm <- sapply(indra_ids_sm, function(x) {
   strsplit(x, ":")[[1]][1]
 }, USE.NAMES = FALSE)
+length(indra_ids)
+```
 
+    ## [1] 31737
+
+``` r
 idx <- grepl("https://identifiers.org/", dm_ids)
 dm_ids <- dm_ids[idx]
 dm_ids_sm <- str_remove(dm_ids, "https://identifiers.org/")
 dm_ids_sm <- sapply(dm_ids_sm, function(x) {
   strsplit(x, ":")[[1]][1]
 }, USE.NAMES = FALSE)
+length(dm_ids)
+```
 
+    ## [1] 425
+
+``` r
 both <- intersect(dm_ids, indra_ids)
 both_sm <- str_remove(both, "https://identifiers.org/")
 both_sm <- sapply(both_sm, function(x) {
   strsplit(x, ":")[[1]][1]
 }, USE.NAMES = FALSE)
+length(both)
 ```
+
+    ## [1] 194
 
 ## Merge Data
 
@@ -460,6 +475,57 @@ ggsave("id_venn.pdf", height=6, width=10, units="in")
 ```
 
 # FREQUENCY COMPARISON: COUNTS OF INTERACTIONS WITH GIVEN IDS (TOP 10)
+
+## TODO
+
+``` r
+max_iter <- length(dm_ids_x)
+pb <- txtProgressBar(min=1, max=max_iter, style=3)
+
+dm_ids_freq <- data.frame(id=dm_ids_x, freq_dm=NA, stringsAsFactors=FALSE)
+for(i in 1:length(dm_ids_x)) {
+  setTxtProgressBar(pb, i)
+  
+  #i <- 1
+  id <- dm_ids_x[i]
+  a <- grepl(id, dm_cleaned$ANNOTATION_SOURCE)
+  b <- grepl(id, dm_cleaned$ANNOTATION_INTERACTION)
+  c <- grepl(id, dm_cleaned$ANNOTATION_TARGET)
+  
+  dm_ids_freq$freq[i] <- which(a|b|c) %>% length
+}
+
+library(listutils)
+
+dba <- strsplit(indra_cleaned$AG_A_LINKS, "\\|")
+dbb <- strsplit(indra_cleaned$PMID, "\\|")
+dbc <- strsplit(indra_cleaned$AG_B_LINKS, "\\|")
+
+max_iter <- length(indra_ids_x)
+pb <- txtProgressBar(min=1, max=max_iter, style=3)
+
+indra_ids_freq <- data.frame(id=indra_ids_x, freq_indra=NA, stringsAsFactors=FALSE)
+for(i in 1:length(indra_ids_x)) {
+  setTxtProgressBar(pb, i)
+  
+  #i <- 1
+  id <- indra_ids_x[i]
+  
+  if(grepl("pubmed", id)) {
+    a <- integer(0)
+    b <- searchListOfVectors(id, dba)[[1]]
+    c <- integer(0)
+  } else {
+    a <- searchListOfVectors(id, dba)[[1]]
+    b <- integer(0)
+    c <- searchListOfVectors(id, dbc)[[1]]
+  }
+  
+  indra_ids_freq$freq[i] <- which(a|b|c) %>% length
+}
+
+saveRDS
+```
 
 ## Merge Data From The Two Sources
 
