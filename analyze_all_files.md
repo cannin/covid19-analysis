@@ -10,40 +10,40 @@ Augustin Luna
       - [Read COVID19 Disease Maps
         Tables](#read-covid19-disease-maps-tables)
       - [Normalize IDs](#normalize-ids)
-          - [Replace characters](#replace-characters)
-          - [Replace URNs to with
-            identifiers.org](#replace-urns-to-with-identifiers.org)
+          - [Replace Characters](#replace-characters)
+          - [Replace URNs With
+            identifiers.org](#replace-urns-with-identifiers.org)
           - [Fix identifiers.org Old
             Format](#fix-identifiers.org-old-format)
           - [Simplify “file” Text](#simplify-file-text)
       - [Export Data](#export-data)
   - [INDRA: TEXT-MINING DATASET](#indra-text-mining-dataset)
-      - [Read text-mining data](#read-text-mining-data)
+      - [Read Text-Mining Data](#read-text-mining-data)
       - [Normalize IDs](#normalize-ids-1)
-          - [Fix identifiers.org Old Format and Add identifiers.org to
+          - [Fix identifiers.org Old Format And Add identifiers.org To
             PubMed](#fix-identifiers.org-old-format-and-add-identifiers.org-to-pubmed)
-          - [Match the identifier delimiters to match Disease
-            Maps](#match-the-identifier-delimiters-to-match-disease-maps)
-      - [Export data](#export-data-1)
-      - [Identifiers with Issues](#identifiers-with-issues)
+          - [Match Identifier Delimiters To Match Disease
+            Maps](#match-identifier-delimiters-to-match-disease-maps)
+      - [Export Data](#export-data-1)
+      - [Identifiers With Issues](#identifiers-with-issues)
           - [Formatting Questions](#formatting-questions)
-          - [IDs not available on
+          - [IDs Not Available On
             identifiers.org](#ids-not-available-on-identifiers.org)
           - [Miscellaneous](#miscellaneous)
   - [DATASET IDENTIFIER COMPARISON](#dataset-identifier-comparison)
-      - [Set comparisons](#set-comparisons)
+      - [Set Comparisons](#set-comparisons)
       - [Read Data](#read-data)
-      - [Extract namespace](#extract-namespace)
+      - [Extract Namespace](#extract-namespace)
       - [Merge Data](#merge-data)
       - [Plot Data](#plot-data)
-          - [Identifier Counts by Namespace (Disease Maps, Indra,
+          - [Identifier Counts By Namespace (Disease Maps, Indra,
             Intersected
             (Both))](#identifier-counts-by-namespace-disease-maps-indra-intersected-both)
           - [Venn Diagram](#venn-diagram)
   - [FREQUENCY COMPARISON: COUNTS OF INTERACTIONS WITH GIVEN IDS (TOP
     10)](#frequency-comparison-counts-of-interactions-with-given-ids-top-10)
-      - [Merge data from the two
-        sources](#merge-data-from-the-two-sources)
+      - [Merge Data From The Two
+        Sources](#merge-data-from-the-two-sources)
       - [Uniprot](#uniprot)
       - [ChEBI](#chebi)
       - [HGNC](#hgnc)
@@ -113,7 +113,7 @@ for(i in 2:length(files)) {
 
 ## Normalize IDs
 
-### Replace characters
+### Replace Characters
 
 ``` r
 #dm$ANNOTATION_SOURCE <- tolower(dm$ANNOTATION_SOURCE)
@@ -138,7 +138,7 @@ dm$ANNOTATION_TARGET <- str_replace_all(dm$ANNOTATION_SOURCE, "%2F", "/")
 dm$ANNOTATION_INTERACTION <- str_replace_all(dm$ANNOTATION_SOURCE, "%2F", "/")
 ```
 
-### Replace URNs to with identifiers.org
+### Replace URNs With identifiers.org
 
 ``` r
 mapping <- read_delim("id_mapping_sm.txt", " ", col_types = cols(
@@ -205,7 +205,7 @@ ta.add_statements(stmts_json)
 model_tsv = ta.make_model("statements_2020-04-21-17-41-46.tsv", add_curation_cols=True)
 ```
 
-## Read text-mining data
+## Read Text-Mining Data
 
 ``` r
 indra <- read_tsv("statements_2020-04-21-17-41-46.tsv", col_types=cols(
@@ -227,7 +227,7 @@ indra <- read_tsv("statements_2020-04-21-17-41-46.tsv", col_types=cols(
 
 ## Normalize IDs
 
-### Fix identifiers.org Old Format and Add identifiers.org to PubMed
+### Fix identifiers.org Old Format And Add identifiers.org To PubMed
 
 ``` r
 indra_mapping <- read_delim("id_mapping_indra.txt", " ", col_types = cols(
@@ -249,7 +249,7 @@ for(i in 1:nrow(indra_mapping)) {
 indra$PMID <- paste0("https://identifiers.org/pubmed:", indra$PMID)
 ```
 
-### Match the identifier delimiters to match Disease Maps
+### Match Identifier Delimiters To Match Disease Maps
 
 ``` r
 indra$AG_A_LINKS <- str_replace_all(indra$AG_A_LINKS, ", ", "|")
@@ -257,7 +257,7 @@ indra$AG_B_LINKS <- str_replace_all(indra$AG_B_LINKS, ", ", "|")
 indra$PMID <- str_replace_all(indra$PMID, ", ", "|")
 ```
 
-## Export data
+## Export Data
 
 ``` r
 write_tsv(indra, "indra_cleaned.txt", na = "")
@@ -275,7 +275,7 @@ indra_ids_x <- indra_ids_x %>% unique %>% sort
 write_lines(indra_ids_x, "indra_ids.txt")
 ```
 
-## Identifiers with Issues
+## Identifiers With Issues
 
 ### Formatting Questions
 
@@ -295,7 +295,7 @@ would avoid additional code.
 65851   a2214f57-31e1-4155-a8d2-b2dd33a75992    Inhibition  Inhibition(quercetin(), Dengue-2 NS2B-NS3pro()) Quercetin   https://identifiers.org/chebi/CHEBI:16243, https://identifiers.org/pubchem.compound/5280343 quercetin() Dengue-2 NS2B-NS3pro        Dengue-2 NS2B-NS3pro()  28700665    Indeed, previously Myricetin and Quercetin have been characterized to allosterically inhibit Dengue-2 NS2B-NS3pro with Ki values of 4.7 and 20.7 muM respectively, which, however, are much weaker than those for Zika NS2B-NS3pro here.        False   
 ```
 
-### IDs not available on identifiers.org
+### IDs Not Available On identifiers.org
 
 How can these be added to identifiers.org?
 
@@ -313,7 +313,7 @@ TODO: These need further debugging
 
 # DATASET IDENTIFIER COMPARISON
 
-## Set comparisons
+## Set Comparisons
 
 ``` r
 t1 <- intersect(dm_ids_x, indra_ids_x) %>% sort
@@ -389,7 +389,7 @@ dm_cleaned <- read_tsv("dm_cleaned.txt", col_types = cols(
 ))
 ```
 
-## Extract namespace
+## Extract Namespace
 
 ``` r
 idx <- grepl("https://identifiers.org/", indra_ids)
@@ -424,7 +424,7 @@ dat <- rbind(t1, t2, t3)
 
 ## Plot Data
 
-### Identifier Counts by Namespace (Disease Maps, Indra, Intersected (Both))
+### Identifier Counts By Namespace (Disease Maps, Indra, Intersected (Both))
 
 ``` r
 p1 <- ggplot(dat, aes(x=factor(db), fill=factor(id_type))) +
@@ -461,7 +461,7 @@ ggsave("id_venn.pdf", height=6, width=10, units="in")
 
 # FREQUENCY COMPARISON: COUNTS OF INTERACTIONS WITH GIVEN IDS (TOP 10)
 
-## Merge data from the two sources
+## Merge Data From The Two Sources
 
 ``` r
 dm_tab <- table(dm_ids_full) %>% sort(., decreasing = TRUE)
