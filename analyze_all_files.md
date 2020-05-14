@@ -18,6 +18,8 @@ Augustin Luna
           - [Simplify “file” Text](#simplify-file-text)
       - [Export Data](#export-data)
   - [INDRA: TEXT-MINING DATASET](#indra-text-mining-dataset)
+      - [Convert Indra Statements to TSV
+        (Python)](#convert-indra-statements-to-tsv-python)
       - [Read Text-Mining Data](#read-text-mining-data)
       - [Normalize IDs](#normalize-ids-1)
           - [Fix identifiers.org Old Format And Add identifiers.org To
@@ -193,6 +195,8 @@ write_lines(dm_ids_x, "dm_ids.txt")
 ```
 
 # INDRA: TEXT-MINING DATASET
+
+## Convert Indra Statements to TSV (Python)
 
 Python code for conversion of Indra statements to TSV
 
