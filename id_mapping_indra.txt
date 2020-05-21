@@ -1,0 +1,15 @@
+full_name indra_base modification_base
+ChEBI https://identifiers.org/chebi/CHEBI: https://identifiers.org/CHEBI:
+ChEBI https://identifiers.org/chebi/ https://identifiers.org/CHEBI:
+PFAM https://identifiers.org/pfam/ https://identifiers.org/pfam:
+FPLX https://identifiers.org/fplx/ https://identifiers.org/fplx:
+GO https://identifiers.org/go/ https://identifiers.org/
+Uniprot/TrEMBL https://identifiers.org/uniprot/ https://identifiers.org/uniprot:
+MeSH https://identifiers.org/mesh/ https://identifiers.org/mesh:
+HGNC https://identifiers.org/hgnc/HGNC https://identifiers.org/hgnc
+PubChem-compound https://identifiers.org/pubchem.compound/ https://identifiers.org/pubchem.compound:
+InterPro https://identifiers.org/interpro/ https://identifiers.org/interpro:
+NCIt https://identifiers.org/ncit/ https://identifiers.org/ncit:
+Experimental-Factor-Ontology EFO: https://identifiers.org/efo:
+Brenda-Tissue-Ontology BTO: https://identifiers.org/BTO:
+Human-Phenotype-Ontology HP:HP: https://identifiers.org/HP:

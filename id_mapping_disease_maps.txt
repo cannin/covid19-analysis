@@ -1,0 +1,16 @@
+full_name identifiers_org_base urn_base
+PubChem-substance https://identifiers.org/pubchem.substance urn:miriam:pubchem.substance
+PubChem-compound https://identifiers.org/pubchem.compound urn:miriam:pubchem.compound
+Uniprot/TrEMBL https://identifiers.org/uniprot urn:miriam:uniprot
+ChEBI https://identifiers.org/chebi urn:miriam:obo.chebi
+BiGG-Metabolite https://identifiers.org/bigg.metabolite urn:miriam:bigg.metabolite
+DOI https://identifiers.org/doi urn:miriam:doi
+HGNC https://identifiers.org/hgnc urn:miriam:hgnc
+PubMed https://identifiers.org/pubmed urn:miriam:pubmed
+KEGG-reaction https://identifiers.org/kegg.reaction urn:miriam:kegg.reaction
+KEGG-pathway https://identifiers.org/kegg.pathway urn:miriam:kegg.pathway
+NCBI-protein https://identifiers.org/ncbiprotein urn:miriam:ncbiprotein
+NCBI-gene https://identifiers.org/ncbigene urn:miriam:ncbigene
+DrugBank https://identifiers.org/drugbank urn:miriam:drugbank
+GO https://identifiers.org/GO urn:miriam:obo.go
+Enzyme-Nomenclature https://identifiers.org/ec-code urn:miriam:ec-code
