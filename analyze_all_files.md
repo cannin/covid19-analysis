@@ -1,7 +1,7 @@
 COVID19 Disease Map Identifier Analysis
 ================
 Augustin Luna
-14 May, 2020
+21 May, 2020
 
   - [PURPOSE](#purpose)
   - [LOAD LIBRARIES](#load-libraries)
@@ -148,7 +148,7 @@ dm$ANNOTATION_INTERACTION <- str_replace_all(dm$ANNOTATION_SOURCE, "%2F", "/")
 ### Replace URNs With identifiers.org
 
 ``` r
-mapping <- read_delim("id_mapping_sm.txt", " ", col_types = cols(
+mapping <- read_delim("id_mapping_disease_maps.txt", " ", col_types = cols(
   full_name = col_character(),
   identifiers_org_base = col_character(),
   urn_base = col_character()
@@ -179,7 +179,7 @@ dm$file <- str_remove(dm$file, "_simplified.sif")
 ## Export Data
 
 ``` r
-write_tsv(dm, "dm_cleaned.txt", na = "")
+write_tsv(dm, "disease_maps_cleaned.txt", na = "")
 
 dm_ids <- c(dm$ANNOTATION_SOURCE, dm$ANNOTATION_TARGET, dm$ANNOTATION_INTERACTION)
 dm_ids_x <- sapply(dm_ids, function(x) { 
@@ -188,10 +188,10 @@ dm_ids_x <- sapply(dm_ids, function(x) {
 }, USE.NAMES = FALSE) %>% unlist %>% sort
 
 dm_ids_full <- dm_ids_x
-write_lines(dm_ids_x, "dm_ids_full.txt")
+write_lines(dm_ids_x, "disease_maps_ids_full.txt")
 
 dm_ids_x <- dm_ids_x %>% unique %>% sort
-write_lines(dm_ids_x, "dm_ids.txt")
+write_lines(dm_ids_x, "disease_maps_ids.txt")
 ```
 
 # INDRA: TEXT-MINING DATASET
@@ -368,10 +368,10 @@ write_lines(t4, "union.txt")
 
 ``` r
 indra_ids <- read_lines("indra_ids.txt")
-dm_ids <- read_lines("dm_ids.txt")
+dm_ids <- read_lines("disease_maps_ids.txt")
 
 indra_ids_full <- read_lines("indra_ids_full.txt")
-dm_ids_full <- read_lines("dm_ids_full.txt")
+dm_ids_full <- read_lines("disease_maps_ids_full.txt")
 
 indra_cleaned <- read_tsv("indra_cleaned.txt", col_types = cols(
   .default = col_logical(),
@@ -389,7 +389,7 @@ indra_cleaned <- read_tsv("indra_cleaned.txt", col_types = cols(
   TEXT = col_character()
 ))
 
-dm_cleaned <- read_tsv("dm_cleaned.txt", col_types = cols(
+dm_cleaned <- read_tsv("disease_maps_cleaned.txt", col_types = cols(
   PARTICIPANT_A = col_character(),
   INTERACTION_TYPE = col_character(),
   PARTICIPANT_B = col_character(),
